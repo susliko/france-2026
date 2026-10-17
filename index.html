@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L'Aventure Française · Janvier 2 — 17</title>
+  <meta name="description" content="A sixteen-day French odyssey: Paris, Lyon, the slopes of Méribel in the 3 Vallées, and the cycling paradise of the Côte d'Azur." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Leaflet removed — using custom SVG map (no external deps) -->
+
+  <style>
+    /* ============ RESET & BASE ============ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 400;
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    :root {
+      --cream: #F4EEE3;
+      --cream-deep: #ECE2D2;
+      --ink: #2A2622;
+      --ink-soft: #5A534B;
+      --navy: #14253D;
+      --navy-deep: #0B172A;
+      --gold: #B08755;
+      --gold-soft: #D4B98C;
+      --rouge: #8B2A2A;
+      --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+      --sans: 'Inter', -apple-system, sans-serif;
+      --shadow-soft: 0 18px 50px -25px rgba(20, 30, 50, 0.35);
+    }
+
+    /* ============ TYPOGRAPHY ============ */
+    .serif { font-family: var(--serif); }
+    h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.01em; margin: 0; }
+    h1 { font-size: clamp(3rem, 8vw, 7rem); line-height: 0.95; }
+    h2 { font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1.05; }
+    h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); line-height: 1.2; }
+    p { margin: 0 0 1rem; }
+
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .eyebrow::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .lede {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+      line-height: 1.5;
+      color: var(--ink-soft);
+      max-width: 60ch;
+    }
+
+    /* ============ NAV ============ */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 2.5rem;
+      background: rgba(244, 238, 227, 0.0);
+      transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease;
+    }
+    .nav.scrolled {
+      background: rgba(244, 238, 227, 0.92);
+      backdrop-filter: blur(10px);
+      padding: 0.9rem 2.5rem;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+    }
+    .nav .mark {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      letter-spacing: 0.04em;
+      color: var(--cream);
+      transition: color 0.4s ease;
+    }
+    .nav.scrolled .mark { color: var(--navy); }
+    .nav .mark span { color: var(--gold); font-style: italic; }
+    .nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      margin: 0; padding: 0;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream);
+      transition: color 0.4s ease;
+    }
+    .nav.scrolled ul { color: var(--ink); }
+    .nav ul a { transition: opacity 0.2s; }
+    .nav ul a:hover { opacity: 0.6; }
+    @media (max-width: 720px) {
+      .nav ul { display: none; }
+      .nav { padding: 1.1rem 1.4rem; }
+    }
+
+    /* ============ HERO ============ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 6rem 2.5rem 5rem;
+      color: var(--cream);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(11,23,42,0.45) 0%, rgba(11,23,42,0.15) 35%, rgba(11,23,42,0.92) 100%),
+        url('img/holidu-terrace.jpg') center/cover no-repeat;
+      z-index: -1;
+      animation: slowZoom 24s ease-in-out infinite alternate;
+    }
+    @keyframes slowZoom {
+      from { transform: scale(1); }
+      to   { transform: scale(1.08); }
+    }
+    .hero-content {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      gap: 1.4rem;
+    }
+    .hero-dates {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      font-style: italic;
+      color: var(--gold-soft);
+      letter-spacing: 0.02em;
+    }
+    .hero-dates .divider { width: 60px; height: 1px; background: var(--gold-soft); align-self: center; }
+    .hero h1 { max-width: 14ch; }
+    .hero h1 em { color: var(--gold-soft); font-style: italic; }
+    .hero .sub {
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+      font-style: italic;
+      max-width: 50ch;
+      color: rgba(244, 238, 227, 0.9);
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    .scroll-cue::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: var(--cream);
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: translate(-50%, 0); }
+      50%      { opacity: 0.9; transform: translate(-50%, 6px); }
+    }
+
+    /* ============ LAYOUT HELPERS ============ */
+    section { padding: 7rem 2.5rem; position: relative; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 2.5rem; }
+      section { padding: 5rem 1.5rem; }
+    }
+
+    /* ============ TIMELINE ============ */
+    .timeline-section { background: var(--navy-deep); color: var(--cream); }
+    .timeline-section .eyebrow { color: var(--gold-soft); }
+    .timeline-section .eyebrow::before { background: var(--gold-soft); }
+    .timeline-section h2 { color: var(--cream); margin-bottom: 1rem; }
+    .timeline-section .lede { color: rgba(244, 238, 227, 0.75); margin-bottom: 4rem; }
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 1.25rem;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--gold) 10%, var(--gold) 90%, transparent);
+    }
+    .tl-item {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 1.5rem;
+      padding: 1.8rem 0;
+      align-items: start;
+      position: relative;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: 0.85rem;
+      top: 2.4rem;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 4px var(--navy-deep), 0 0 0 5px var(--gold);
+    }
+    .tl-date {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--gold-soft);
+      font-size: 1rem;
+      padding-top: 0.4rem;
+      text-align: right;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+    .tl-content h3 { color: var(--cream); margin-bottom: 0.4rem; font-size: 1.6rem; }
+    .tl-content p { color: rgba(244, 238, 227, 0.75); margin: 0; max-width: 60ch; }
+
+    /* ============ DESTINATION SECTIONS ============ */
+    .destination {
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .destination:nth-of-type(even) { background: var(--cream-deep); }
+    .dest-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .dest-header .num {
+      font-family: var(--serif);
+      font-size: clamp(5rem, 10vw, 9rem);
+      color: var(--gold);
+      line-height: 0.8;
+      font-style: italic;
+      opacity: 0.5;
+    }
+    .dest-image {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: var(--shadow-soft);
+    }
+    .dest-image-tall {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 4px;
+      box-shadow: var(--shadow-soft);
+    }
+    .caption {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-top: 0.8rem;
+      text-align: right;
+    }
+
+    .dest-body { font-size: 1.05rem; color: var(--ink-soft); }
+    .dest-body p { margin-bottom: 1.2rem; }
+    .dest-body h4 {
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin: 2rem 0 0.8rem;
+    }
+    .dest-body ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.2rem;
+    }
+    .dest-body ul li {
+      padding-left: 1.5rem;
+      position: relative;
+      margin-bottom: 0.5rem;
+    }
+    .dest-body ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+    .dest-body em { color: var(--ink); font-style: italic; }
+
+    /* ============ FOOD CALLOUT ============ */
+    .food-callout {
+      margin: 5rem 0 0;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+      padding: 1.5rem 0;
+      border-top: 1px solid rgba(20, 30, 50, 0.12);
+    }
+    .food-callout.flip {
+      grid-template-columns: 1fr 1.4fr;
+    }
+    .food-callout.flip .food-image { order: -1; }
+    .food-callout .food-image {
+      width: 100%;
+      aspect-ratio: 5/4;
+      object-fit: cover;
+      border-radius: 3px;
+      box-shadow: var(--shadow-soft);
+    }
+    .food-callout .food-text .eyebrow {
+      margin-bottom: 0.5rem;
+    }
+    .food-callout .food-text h4 {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+      color: var(--navy);
+      margin: 0 0 0.8rem;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+    }
+    .food-callout .food-text h4 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+    .food-callout .food-text p {
+      font-size: 0.98rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+      margin: 0;
+    }
+    .food-callout .food-text p em {
+      color: var(--navy);
+      font-style: italic;
+    }
+    @media (max-width: 800px) {
+      .food-callout, .food-callout.flip { grid-template-columns: 1fr; gap: 1.5rem; }
+      .food-callout.flip .food-image { order: 0; }
+    }
+
+    /* ============ FOOD PULLQUOTE ============ */
+    .pullquote {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 6rem 2.5rem;
+      text-align: center;
+    }
+    .pullquote blockquote {
+      max-width: 900px;
+      margin: 0 auto;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      line-height: 1.35;
+      position: relative;
+    }
+    .pullquote blockquote::before,
+    .pullquote blockquote::after {
+      content: '"';
+      display: block;
+      font-size: 5rem;
+      color: var(--gold);
+      line-height: 0.4;
+      margin: 1.5rem auto;
+      font-style: normal;
+    }
+    .pullquote blockquote::before { margin-bottom: 2.5rem; }
+    .pullquote blockquote::after { margin-top: 2.5rem; transform: scaleX(-1); }
+    .pullquote cite {
+      display: block;
+      margin-top: 2rem;
+      font-style: normal;
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold-soft);
+    }
+
+    /* ============ CHALET CARD ============ */
+    .chalet-card {
+      background: white;
+      padding: 3rem;
+      margin: 4rem 0;
+      border-radius: 4px;
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .chalet-card { grid-template-columns: 1fr; padding: 2rem; }
+    }
+    .chalet-card h3 { font-size: 2.2rem; margin-bottom: 0.5rem; color: var(--navy); }
+    .chalet-card .where {
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--gold);
+      font-size: 1.15rem;
+      margin-bottom: 1.5rem;
+    }
+    .chalet-card .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem 2rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid rgba(0,0,0,0.1);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      margin: 1.5rem 0;
+    }
+    .chalet-card .stat {
+      display: flex;
+      flex-direction: column;
+    }
+    .chalet-card .stat .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 0.2rem;
+    }
+    .chalet-card .stat .val {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      color: var(--navy);
+    }
+    .chalet-card .price {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      color: var(--gold);
+      font-style: italic;
+    }
+    .chalet-card .price small {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      font-style: normal;
+    }
+
+    /* ============ CYCLING CARDS ============ */
+    .ride-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    @media (max-width: 900px) { .ride-grid { grid-template-columns: 1fr; } }
+    .ride {
+      background: white;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.4s ease;
+    }
+    .ride:hover { transform: translateY(-6px); }
+    .ride .img {
+      aspect-ratio: 4/3;
+      background-size: cover;
+      background-position: center;
+    }
+    .ride .body { padding: 1.8rem; }
+    .ride .body h4 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      color: var(--navy);
+      margin-bottom: 0.3rem;
+    }
+    .ride .body .meta {
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .ride .body p { font-size: 0.95rem; color: var(--ink-soft); margin: 0; }
+
+    /* ============ MAP SECTION ============ */
+    .map-section {
+      background: var(--cream);
+      padding-bottom: 4rem;
+    }
+    .map-wrap {
+      position: relative;
+      margin-top: 3rem;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      background: white;
+    }
+    #map {
+      height: 560px;
+      width: 100%;
+      background: #e9e3d6;
+    }
+    .map-legend {
+      position: absolute;
+      bottom: 1.2rem;
+      left: 1.2rem;
+      background: rgba(244, 238, 227, 0.96);
+      padding: 1rem 1.4rem;
+      border-radius: 3px;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      z-index: 500;
+      max-width: 240px;
+      backdrop-filter: blur(6px);
+    }
+    .map-legend strong {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+    }
+    .map-legend .route-leg {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--ink-soft);
+    }
+    .map-legend .swatch {
+      width: 24px;
+      height: 3px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .map-legend .swatch.train { background: #14253D; }
+    .map-legend .swatch.road { background: #B08755; }
+    .map-legend .swatch.transfer { background: #14253D; width: 14px; height: 14px; border-radius: 50%; }
+
+    .map-popup {
+      font-family: var(--sans);
+      min-width: 180px;
+    }
+    .map-popup h4 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      color: var(--navy);
+      margin: 0 0 0.2rem;
+      letter-spacing: -0.01em;
+    }
+    .map-popup .date {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .map-popup p {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      margin: 0;
+      line-height: 1.5;
+    }
+    .custom-marker {
+      background: var(--cream);
+      border: 2px solid var(--gold);
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--navy);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .custom-marker:hover {
+      transform: scale(1.18);
+      background: var(--gold);
+      color: var(--cream);
+    }
+    .custom-marker.transfer {
+      background: var(--navy);
+      border-color: var(--cream);
+      color: var(--cream);
+      width: 22px;
+      height: 22px;
+      font-size: 0.75rem;
+    }
+    .leaflet-popup-content-wrapper {
+      border-radius: 3px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    @media (max-width: 720px) {
+      #map { height: 420px; }
+      .map-legend { font-size: 0.78rem; padding: 0.8rem 1rem; max-width: 200px; }
+    }
+
+    /* ============ FINAL CTA ============ */
+    .finale {
+      background: var(--navy-deep);
+      color: var(--cream);
+      text-align: center;
+      padding: 9rem 2.5rem;
+    }
+    .finale h2 {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      margin-bottom: 1.5rem;
+    }
+    .finale h2 em { color: var(--gold-soft); font-style: italic; }
+    .finale .lede { margin: 0 auto 3rem; color: rgba(244, 238, 227, 0.8); }
+    .finale .cta {
+      display: inline-block;
+      padding: 1.2rem 3rem;
+      border: 1px solid var(--gold);
+      color: var(--gold-soft);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+    }
+    .finale .cta:hover {
+      background: var(--gold);
+      color: var(--navy-deep);
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+      background: #0A121F;
+      color: rgba(244, 238, 227, 0.6);
+      padding: 2rem 2.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+    footer .heart { color: var(--rouge); }
+
+    /* ============ SCROLL REVEAL ============ */
+    /* Default state: visible (so non-JS / PDF / prefers-reduced-motion shows content) */
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    /* Only hide + animate when JS adds this class to <html> */
+    html.js .reveal:not(.visible) {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { transition: none; }
+    }
+
+    /* ============ MOBILE POLISH ============ */
+    @media (max-width: 600px) {
+      body { font-size: 16px; }
+      .container { padding: 0 1.25rem; }
+      section { padding: 4rem 0; }
+
+      /* Hero: keep it tight */
+      .hero h1 { font-size: 3.4rem; line-height: 0.95; }
+      .hero .lead { font-size: 1.1rem; max-width: 32ch; }
+      .hero .scroll-prompt { font-size: 0.7rem; }
+      .hero .date-block { gap: 0.6rem; font-size: 0.85rem; }
+      .hero .date-block em { font-size: 1.4rem; }
+      .hero .ornament-bottom { width: 1px; height: 60px; }
+
+      /* Section headers */
+      .dest-header { margin-bottom: 2rem; }
+      .dest-header h2 { font-size: 2.2rem; line-height: 1.05; }
+      .dest-header .num { font-size: 4rem; }
+      .dest-header .num:empty { display: none; }
+      .eyebrow { font-size: 0.72rem; }
+
+      /* Body text */
+      .lede { font-size: 1.1rem; line-height: 1.5; }
+      p { font-size: 1rem; }
+      ul li { font-size: 0.98rem; }
+
+      /* Map */
+      #map { height: 380px; }
+      .map-legend { bottom: 12px; left: 12px; padding: 0.7rem 0.9rem; font-size: 0.75rem; }
+      .map-legend strong { font-size: 0.78rem; margin-bottom: 0.3rem; }
+
+      /* Timeline */
+      .timeline::before { left: 0.75rem; }
+      .tl-item { grid-template-columns: 78px 1fr; gap: 1rem; padding: 1.4rem 0; }
+      .tl-item::before { left: 0.35rem; top: 1.95rem; width: 12px; height: 12px; }
+      .tl-date { font-size: 0.85rem; padding-top: 0.3rem; }
+      .tl-content h3 { font-size: 1.3rem; }
+      .tl-content p { font-size: 0.95rem; line-height: 1.55; }
+
+      /* Food callout */
+      .food-callout { margin-top: 3rem; padding: 1rem 0; }
+      .food-callout .food-text h4 { font-size: 1.6rem; }
+
+      /* Chalet card */
+      .chalet-card { padding: 1.5rem 1.25rem; gap: 1.5rem; }
+      .chalet-card h3 { font-size: 1.8rem; }
+      .chalet-card .stats { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+      .chalet-card .stat { padding: 0.7rem 0.5rem; }
+      .chalet-card .stat .label { font-size: 0.65rem; }
+      .chalet-card .stat .val { font-size: 0.95rem; }
+
+      /* Cycling rides */
+      .ride .img { aspect-ratio: 5/3; }
+      .ride .body { padding: 1.2rem 1.4rem 1.5rem; }
+      .ride .body h4 { font-size: 1.4rem; }
+      .ride .body p { font-size: 0.95rem; }
+      .ride .meta { font-size: 0.7rem; }
+
+      /* Pullquote */
+      .pullquote { padding: 4rem 1.5rem; }
+      .pullquote blockquote { font-size: 1.4rem; }
+
+      /* Finale */
+      .finale { padding: 6rem 1.5rem; }
+      .finale h2 { font-size: 2.6rem; }
+      .finale .lede { font-size: 1.1rem; }
+      .finale .btn { padding: 1.1rem 2rem; font-size: 0.85rem; }
+
+      /* Grid-2 collapses tighter */
+      .grid-2, .grid-3 { gap: 2rem; }
+
+      /* Caption */
+      .caption { font-size: 0.72rem; }
+    }
+  </style>
+
+  <!-- Leaflet (no API key) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+
+  <!-- ============== NAV ============== -->
+  <nav class="nav" id="nav">
+    <div class="mark">France <span>·</span> Hiver</div>
+    <ul>
+      <li><a href="#itinerary">Itinéraire</a></li>
+      <li><a href="#paris">Paris</a></li>
+      <li><a href="#lyon">Lyon</a></li>
+      <li><a href="#meribel">Méribel</a></li>
+      <li><a href="#nice">Nice</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============== HERO ============== -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-dates">
+        <span>Janvier 2</span>
+        <span class="divider"></span>
+        <span>Janvier 17</span>
+        <span class="divider"></span>
+        <span>2026</span>
+      </div>
+      <h1>L'Aventure <em>Française</em></h1>
+      <p class="sub">
+        Sixteen days. Four chapters. One country that invented the art of living.
+        From the rooftops of Paris to the peaks of the 3 Vallées, and finally — 
+        the sun on our faces along the Côte d'Azur.
+      </p>
+    </div>
+    <div class="scroll-cue">Défiler</div>
+  </header>
+
+  <!-- ============== MAP ============== -->
+  <section class="map-section" id="route">
+    <div class="container">
+      <div class="dest-header reveal">
+        <div>
+          <span class="eyebrow">Le Plan</span>
+          <h2 style="margin-top: 0.5rem;">Notre <em style="color:var(--gold);font-style:italic;">Route</em></h2>
+        </div>
+        <div class="num">↗</div>
+      </div>
+      <p class="lede reveal" style="margin-bottom: 2rem;">
+        From the rooftops of Paris, down through Lyon, up into the Tarentaise valley,
+        back down through the Alps, across to Marseille — and finally south, to the
+        Mediterranean sun. <em>Voici le plan.</em>
+      </p>
+
+      <div class="map-wrap reveal">
+        <div id="map"></div>
+        <div class="map-legend">
+          <strong>Le tracé</strong>
+          <div class="route-leg"><span class="swatch train"></span> TGV</div>
+          <div class="route-leg"><span class="swatch road"></span> Route alpine</div>
+          <div class="route-leg"><span class="swatch transfer"></span> Correspondance</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== TIMELINE ============== -->
+  <section class="timeline-section" id="itinerary">
+    <div class="container">
+      <span class="eyebrow">Le plan</span>
+      <h2>The Sixteen Days</h2>
+      <p class="lede">
+        Four chapters, woven together like a proper French meal — each course 
+        better than the last.
+      </p>
+
+      <div class="timeline">
+        <div class="tl-item reveal">
+          <div class="tl-date">2 Jan</div>
+          <div class="tl-content">
+            <h3>Paris · L'arrivée</h3>
+            <p>Land in the city of light. A long lunch. Maybe a stroll along the Seine. 
+            Early to bed — the mountains await.</p>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-date">3 Jan</div>
+          <div class="tl-content">
+            <h3>Paris → Lyon</h3>
+            <p>Morning train south. Two hours and you're in the food capital of France. 
+            Vieux Lyon, a bouchon for dinner, and a glass of Beaujolais.</p>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-date">4 Jan</div>
+          <div class="tl-content">
+            <h3>Lyon → Méribel</h3>
+            <p>A final hop up into the Tarentaise Valley. By evening: the chalet, 
+            the fireplace, and snow on the roof.</p>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-date">4 — 10 Jan</div>
+          <div class="tl-content">
+            <h3>Méribel &amp; the 3 Vallées</h3>
+            <p>Six nights at Chalet Les Trois Coeurs. Six days of the world's largest 
+            ski area. 600 km of pistes. Tartiflette every night.</p>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-date">10 — 12 Jan</div>
+          <div class="tl-content">
+            <h3>The descent</h3>
+            <p>A leisurely drive back through the Alps. One last night in Lyon — 
+            because once is never enough. Then the TGV south to the sun.</p>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-date">12 — 17 Jan</div>
+          <div class="tl-content">
+            <h3>Nice &amp; the Côte d'Azur</h3>
+            <p>Five days on the Mediterranean. Cycling to Cannes. A climb up to Èze. 
+            Socca at sunrise. Pastis at sunset.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== PARIS ============== -->
+  <section class="destination" id="paris">
+    <div class="container">
+      <div class="dest-header reveal">
+        <div>
+          <span class="eyebrow">Chapter One</span>
+          <h2 style="margin-top: 0.5rem;">Paris, <em style="color:var(--gold);font-style:italic;">en passant</em></h2>
+        </div>
+        <div class="num">01</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="reveal">
+          <img class="dest-image" alt="Paris at golden hour"
+               src="img/paris-eiffel.jpg" />
+          <p class="caption">Paris · la ville lumière</p>
+        </div>
+        <div class="dest-body reveal">
+          <p>
+            We'll only have a day — <em>une journée</em> — but Paris in January is 
+            a quieter, gentler thing. No summer queues. The chestnut trees bare, 
+            the light low and golden, the bistros warm and smoky.
+          </p>
+
+          <h4>What we'll do</h4>
+          <ul>
+            <li>A long lunch somewhere in the Marais — confit de canard, a glass of red</li>
+            <li>A wander along the Seine, perhaps across to Notre-Dame (re-opened now, resplendent)</li>
+            <li>A small drink — <em>un petit verre</em> — at a zinc bar, watching the world go by</li>
+            <li>One perfect croissant at breakfast. Slow. With butter.</li>
+          </ul>
+
+          <h4>What we'll eat</h4>
+          <ul>
+            <li><em>Croissants &amp; pain au chocolat</em> — du beurre, beaucoup de beurre</li>
+            <li><em>Steak frites</em> at a proper bistro</li>
+            <li><em>Escargots de Bourgogne</em> — if you're feeling brave</li>
+            <li>A tiny espresso at the counter, standing, like a local</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============ FOOD: PARIS ============ -->
+      <div class="food-callout reveal">
+        <img class="food-image" alt="A classic Parisian boulangerie storefront with painted signs" src="img/boulangerie-paris.jpg" />
+        <div class="food-text">
+          <span class="eyebrow">Le coin de la rue</span>
+          <h4>The <em>boulangerie</em> on the corner</h4>
+          <p>
+            Every Parisian block has one. The hanging <em>B</em>, the painted 
+            <em>boulangerie · pâtisserie · confiserie</em> across the windows, 
+            the warm light spilling onto the cobblestones at seven in the morning. 
+            <em>Une baguette tradition</em>, still warm. A <em>croissant au beurre</em>. 
+            A small <em>café crème</em> at the zinc. <em>Et voilà</em> — the day is off to a good start.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== LYON ============== -->
+  <section class="destination" id="lyon">
+    <div class="container">
+      <div class="dest-header reveal">
+        <div>
+          <span class="eyebrow">Chapter Two</span>
+          <h2 style="margin-top: 0.5rem;">Lyon, <em style="color:var(--gold);font-style:italic;">la capitale de la gastronomie</em></h2>
+        </div>
+        <div class="num">02</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="dest-body reveal">
+          <p>
+            The French will tell you, with absolute certainty, that <em>Lyon est 
+            la capitale de la gastronomie française</em>. And they are right. 
+            This is the city of bouchons, of quenelles, of the chef who invented 
+            modern French cooking — Paul Bocuse.
+          </p>
+          <p>
+            One night here on the way south. One night here on the way back. 
+            That's the deal I've made with myself.
+          </p>
+
+          <h4>What we'll see</h4>
+          <ul>
+            <li><em>Vieux Lyon</em> — the old town, a UNESCO treasure of Renaissance courtyards</li>
+            <li><em>Fourvière</em> — the basilica on the hill, watching over everything</li>
+            <li><em>Les Halles de Lyon — Paul Bocuse</em> — the covered market, a temple</li>
+          </ul>
+
+          <h4>What we'll eat</h4>
+          <ul>
+            <li><em>Quenelles de brochet</em>, floating in sauce like clouds</li>
+            <li><em>Saucisson brioché</em> — the Lyonnais Sunday classic</li>
+            <li><em>Salade lyonnaise</em> — frisée, lardons, a poached egg on top</li>
+            <li><em>Tarte aux pralines roses</em> — the pink praline tart, distinctly Lyon</li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <img class="dest-image" alt="Lyon with Fourvière basilica on the hill"
+               src="img/lyon-fourviere.jpg" />
+          <p class="caption">Lyon · Fourvière qui veille sur la ville</p>
+        </div>
+      </div>
+
+      <!-- ============ FOOD: LYON ============ -->
+      <div class="food-callout flip reveal">
+        <img class="food-image" alt="A French charcuterie and cheese board" src="img/food-charcuterie.jpg" />
+        <div class="food-text">
+          <span class="eyebrow">Le bouchon lyonnais</span>
+          <h4>Where the <em>tablée</em> is the ritual</h4>
+          <p>
+            A <em>bouchon</em> is a Lyonnais institution: small, noisy, draped in 
+            checked cloth, and built around a single great <em>tablée</em>. Order 
+            the <em>saucisson brioché</em> warm, the <em>quenelles</em> swimming 
+            in their crayfish sauce, and a half-bottle of <em>beaujolais</em> — 
+            red, slightly chilled, almost easy to drink.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== PULLQUOTE ============== -->
+  <section class="pullquote">
+    <div class="container">
+      <blockquote class="reveal">
+        "France is the only place where you can sit at a table with a glass of wine, 
+        a piece of bread, some butter and cheese, and feel like you are having 
+        the meal of a lifetime."
+        <cite>— A truth universally acknowledged</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ============== MÉRIBEL ============== -->
+  <section class="destination" id="meribel">
+    <div class="container">
+      <div class="dest-header reveal">
+        <div>
+          <span class="eyebrow">Chapter Three · The Heart</span>
+          <h2 style="margin-top: 0.5rem;">Méribel, <em style="color:var(--gold);font-style:italic;">au cœur des 3 Vallées</em></h2>
+        </div>
+        <div class="num">03</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="reveal">
+          <img class="dest-image" alt="Snowy alpine peaks at Méribel"
+               src="img/meribel-lake.jpg" />
+          <p class="caption">The Tarentaise valley · 3 Vallées</p>
+        </div>
+        <div class="dest-body reveal">
+          <p>
+            Now we arrive at the centrepiece. The 3 Vallées — Méribel, Courchevel, 
+            Val Thorens, Les Menuires — is the largest linked ski area on Earth. 
+            <em>600 kilometres of pistes.</em> 180 lifts. One ski pass.
+          </p>
+          <p>
+            From the chalet in Les Allues we will ski into Méribel centre, take 
+            the Saulire cable car up to 2,700 m and — quite literally — point 
+            our skis downhill in any direction we choose.
+          </p>
+
+          <h4>Pistes to chase</h4>
+          <ul>
+            <li><em>Combe du Vallon</em> — a 6 km red from Mont Vallon at 2,952 m</li>
+            <li><em>La Saulire</em> — the peak above Méribel, with views to Mont Blanc on a clear day</li>
+            <li><em>Courchevel side</em> — for one absurdly glamorous lunch, of course</li>
+            <li><em>Val Thorens</em> — the highest resort in Europe, 2,300 m, snow guaranteed</li>
+          </ul>
+
+          <h4>What we'll eat at altitude</h4>
+          <ul>
+            <li><em>Tartiflette</em> — potatoes, reblochon, lardons, baked until bubbling. The plat de résistance.</li>
+            <li><em>Raclette</em> — melted cheese scraped onto potatoes at the table</li>
+            <li><em>Fondue savoyarde</em> — bread dipped into a caquelon of bubbling Gruyère and Vacherin</li>
+            <li><em>Diots</em> — Savoyard sausages, gently cooked in white wine</li>
+            <li><em>Génépi</em> — the local herbal digestif. Served warm. Magical.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============ CHALET CARD ============ -->
+      <div class="chalet-card reveal">
+        <div>
+          <img class="dest-image" alt="Cozy chalet interior with mountain views"
+               src="img/holidu-interior.jpg" />
+        </div>
+        <div>
+          <span class="eyebrow">Our home for six nights</span>
+          <h3>Chalet Les Trois Coeurs</h3>
+          <p class="where">Les Allues · Méribel · Massif de la Vanoise</p>
+          <p>
+            A 250 m² renovated Savoyard farmhouse at the entrance to the Vanoise 
+            National Park. All wood and stone. Five bedrooms with private 
+            bathrooms. A south-east facing terrace overlooking the mountains, 
+            with a heated table — <em>une table chauffante</em> — for lunch in the cold.
+          </p>
+          <div class="stats">
+            <div class="stat"><span class="label">Guests</span><span class="val">Up to 10</span></div>
+            <div class="stat"><span class="label">Bedrooms</span><span class="val">5 · all ensuite</span></div>
+            <div class="stat"><span class="label">Wellness</span><span class="val">Spa &amp; Sauna</span></div>
+            <div class="stat"><span class="label">To slopes</span><span class="val">10 min walk</span></div>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--ink-soft);">
+            <em>"Sejour très agréable en famille, très beau chalet, bien équipé 
+            et très fonctionnel, tout est parfaitement pensé."</em><br/>
+            — Jean-Marc, février 2024 ★ 9.4
+          </p>
+          <p style="margin-top: 1.5rem;">
+            <a class="price" href="https://www.holidu.fr/d/70525834" target="_blank" rel="noreferrer">
+              View on Holidu ↗
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Image strip -->
+      <div class="grid-3 reveal" style="margin-top: 3rem;">
+        <img class="dest-image-tall" alt="Skiing in the 3 Vallées"
+             src="img/meribel-skier.jpg" />
+        <img class="dest-image-tall" alt="Mountain panorama above the clouds"
+             src="img/meribel-mountain.jpg" />
+        <img class="dest-image-tall" alt="Chalet cozy interior with mountain views"
+             src="img/holidu-interior.jpg" />
+      </div>
+
+      <!-- ============ FOOD: MÉRIBEL ============ -->
+      <div class="food-callout reveal">
+        <img class="food-image" alt="A bubbling tartiflette — potatoes, reblochon and lardons" src="img/tartiflette.jpg" />
+        <div class="food-text">
+          <span class="eyebrow">La cuisine de montagne</span>
+          <h4><em>Tartiflette</em> &amp; friends</h4>
+          <p>
+            After a day on the slopes, nothing is more welcome than a bubbling 
+            <em>tartiflette</em> — potatoes, lardons, onions, half a wheel of 
+            <em>reblochon</em> melted on top. The other answers are <em>raclette</em>, 
+            <em>fondue savoyarde</em>, and a small glass of <em>génépi</em> — the 
+            Alpine digestif that tastes of the mountains themselves.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== NICE ============== -->
+  <section class="destination" id="nice">
+    <div class="container">
+      <div class="dest-header reveal">
+        <div>
+          <span class="eyebrow">Chapter Four · Le Sud</span>
+          <h2 style="margin-top: 0.5rem;">Nice &amp; the <em style="color:var(--gold);font-style:italic;">Côte d'Azur</em></h2>
+        </div>
+        <div class="num">04</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="dest-body reveal">
+          <p>
+            But surely January isn't cycling weather? 
+            <em>Mais non</em> — this is precisely when you do it.
+          </p>
+          <p>
+            Then — the sun. After nine days in the snow, we descend to the 
+            Mediterranean. Five days of <em>lumière</em>, of pastis on a café 
+            terrace, of cycling along the coast with the wind in our faces.
+          </p>
+          <p>
+            Nice in January is mild — ten, twelve degrees — and the locals 
+            are warm. It's the slow season, the off-season: the right season.
+          </p>
+
+          <h4>What we'll see</h4>
+          <ul>
+            <li><em>Promenade des Anglais</em> — the famous seafront, palm trees and pebbles</li>
+            <li><em>Vieux Nice</em> — the old town, baroque, narrow, yellow and ochre</li>
+            <li><em>Colline du Château</em> — the castle hill, the view over the Baie des Anges</li>
+            <li><em>Marché du Cours Saleya</em> — flowers, soap, Socca straight from the oven</li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <img class="dest-image" alt="Promenade des Anglais by night"
+               src="img/nice-promenade.jpg" />
+          <p class="caption">Nice · la Promenade des Anglais, la nuit</p>
+        </div>
+      </div>
+
+      <!-- Cycling rides -->
+      <div style="margin-top: 5rem;">
+        <span class="eyebrow reveal">The rides · à vélo</span>
+        <h2 class="reveal" style="margin: 1rem 0 0.5rem;">Pedal the Riviera</h2>
+        <p class="lede reveal" style="margin-bottom: 0;">
+          Three rides, three different Frances. All on smooth roads, all along the sea.
+        </p>
+
+        <div class="ride-grid">
+          <div class="ride reveal">
+            <div class="img" style="background-image:url('img/cyc-peloton.jpg');"></div>
+            <div class="body">
+              <span class="meta">30 km · Côte d'Azur</span>
+              <h4>Nice → Cannes</h4>
+              <p>The classic Riviera ride. Flat, coastal, along the Baie des Anges 
+              through Antibes and on to Cannes. Stop for a coffee on La Croisette. 
+              Train back — you've earned it.</p>
+            </div>
+          </div>
+          <div class="ride reveal">
+            <div class="img" style="background-image:url('img/eze-village.jpg');"></div>
+            <div class="body">
+              <span class="meta">40 km · Moyenne Corniche</span>
+              <h4>The climb to Èze</h4>
+              <p>Up from Nice along the Moyenne Corniche — Napoleon's road — 
+              to the perched village of Èze. 400 m of climbing. Pastis at the top, 
+              a view you'll remember for a long time.</p>
+            </div>
+          </div>
+          <div class="ride reveal">
+            <div class="img" style="background-image:url('img/nice-coast.jpg');"></div>
+            <div class="body">
+              <span class="meta">60 km · The Corniche d'Or</span>
+              <h4>Corniche d'Or loop</h4>
+              <p>The gold coast road — <em>la Corniche d'Or</em> — between 
+              Cannes and Saint-Raphaël. Red rock plunging into turquoise sea. 
+              Inland through the Estérel hills. Harder, more dramatic, sublime.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nice food -->
+      <div style="margin-top: 5rem;" class="grid-2">
+        <div class="reveal">
+          <img class="dest-image" alt="A Nice boucherie - traditional French restaurant"
+               src="img/nice-boucherie.jpg" />
+          <p class="caption">Un bouchon niçois · bienvenue</p>
+        </div>
+        <div class="dest-body reveal">
+          <h4 style="font-family:var(--serif);font-size:2rem;color:var(--navy);letter-spacing:-0.01em;margin-bottom:0.8rem;text-transform:none;font-style:italic;">
+            What the south feeds you
+          </h4>
+          <p>
+            Niçoise cuisine is the cooking of the sun — olive oil, garlic, 
+            tomatoes, herbs from the hills. The opposite, in every way, of the 
+            heavy Savoyard fare we will have just left behind. Good.
+          </p>
+          <ul>
+            <li><em>Socca</em> — a thin chickpea pancake, baked in a wood oven, eaten hot with pepper</li>
+            <li><em>Salade niçoise</em> — the proper one, with tuna, egg, olives, anchoïade</li>
+            <li><em>Pissaladière</em> — caramelised onions, anchovies, niçoise olives</li>
+            <li><em>Pan bagnat</em> — the sandwich of Nice, round, drenched in olive oil</li>
+            <li><em>Daube niçoise</em> — beef stewed in red wine with orange peel and olives</li>
+            <li><em>Pastis</em> — the anise aperitif, obligatory at 5pm with friends</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============ FOOD: NICE ============ -->
+      <div class="food-callout reveal">
+        <img class="food-image" alt="A Mediterranean salad with olives, tomatoes and feta" src="img/salade-nicoise.jpg" />
+        <div class="food-text">
+          <span class="eyebrow">La cuisine du soleil</span>
+          <h4><em>Socca</em> &amp; <em>salade niçoise</em></h4>
+          <p>
+            On the Vieux-Port at seven in the morning, when the wood oven is 
+            already hot, the <em>socca</em> comes out — a thin, scorching 
+            chickpea pancake, eaten standing, with black pepper and a slice of 
+            lemon. A glass of cold rosé. A view of the boats. <em>Le Sud</em>, indeed.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============== FINALE ============== -->
+  <section class="finale">
+    <div class="container">
+      <span class="eyebrow" style="color:var(--gold-soft);">La grande question</span>
+      <h2 class="reveal">So — <em>on y va ?</em></h2>
+      <p class="lede reveal">
+        Sixteen days. Paris, Lyon, the 3 Vallées, Nice. Snow, sun, cheese, wine, 
+        bikes and mountains. The whole of France in one trip, more or less.
+        <br/><br/>
+        I can't think of a better way to start the year. <em>Qu'en dis-tu ?</em>
+      </p>
+      <a class="cta reveal" href="#itinerary">Voir le plan ↑</a>
+    </div>
+  </section>
+
+  <!-- ============== FOOTER ============== -->
+  <footer>
+    <p>Fait avec <span class="heart">♥</span> et un peu de <em>fromage</em> · L'Aventure Française, Janvier 2026</p>
+  </footer>
+
+  <!-- ============== SCRIPTS ============== -->
+  <script>
+    // Mark JS available so reveal CSS kicks in
+    document.documentElement.classList.add('js');
+
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -10% 0px' });
+    reveals.forEach(r => io.observe(r));
+
+    // Safety net: after 1.5s, reveal anything still hidden (covers headless / no-scroll cases)
+    setTimeout(() => {
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible'));
+    }, 1500);
+
+    // ============ LEAFLET MAP ============
+    (function initMap() {
+      if (typeof L === 'undefined') {
+        setTimeout(initMap, 200);
+        return;
+      }
+      const map = L.map('map', {
+        center: [45.5, 5.0],
+        zoom: window.innerWidth < 700 ? 5 : 6,
+        minZoom: 4,
+        maxZoom: 12,
+        zoomControl: true,
+        scrollWheelZoom: false,
+        attributionControl: true
+      });
+
+      // OpenStreetMap France variant — free, no API key, French labels
+      L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+        subdomains: 'a',
+        maxZoom: 20,
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      const stops = [
+        { n: 1, name: 'Paris',     date: 'Jan 2',     lat: 48.8566, lng:  2.3522, desc: 'One day, in passing. Lunch in the Marais, a wander along the Seine.' },
+        { n: 2, name: 'Lyon',      date: 'Jan 3 & 11', lat: 45.7640, lng:  4.8357, desc: 'The gastronomic capital. Bouchons, quenelles, beaujolais.' },
+        { n: 3, name: 'Méribel',   date: 'Jan 4–10',  lat: 45.3720, lng:  6.5778, desc: 'Six days in the 3 Vallées. Chalet, skis, tartiflette.' },
+        { t: true, name: 'Marseille', date: 'transfer · Jan 12', lat: 43.2965, lng: 5.3698, desc: 'Quick TGV correspondance on the way south.' },
+        { n: 5, name: 'Nice',      date: 'Jan 12–17', lat: 43.7102, lng:  7.2620, desc: 'Five days of Mediterranean cycling and socca.' }
+      ];
+
+      const markerIcon = (n) => L.divIcon({
+        className: 'custom-marker',
+        html: String(n),
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      });
+      const transferIcon = L.divIcon({
+        className: 'custom-marker transfer',
+        html: '✦',
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+      });
+
+      stops.forEach(s => {
+        const icon = s.t ? transferIcon : markerIcon(s.n);
+        const m = L.marker([s.lat, s.lng], { icon }).addTo(map);
+        m.bindPopup(
+          `<div class="map-popup">
+             <div class="date">${s.date}</div>
+             <h4>${s.name}</h4>
+             <p>${s.desc}</p>
+           </div>`
+        );
+      });
+
+      // Routes
+      const trainRoute = (coords, opts={}) => L.polyline(coords, {
+        color: '#14253D', weight: 3, opacity: 0.85, dashArray: '8 6',
+        ...opts
+      }).addTo(map);
+      const roadRoute = (coords, opts={}) => L.polyline(coords, {
+        color: '#B08755', weight: 3, opacity: 0.95,
+        ...opts
+      }).addTo(map);
+
+      // Paris → Lyon (TGV)
+      trainRoute([[48.8566, 2.3522], [47.0, 3.5], [45.7640, 4.8357]]);
+      // Lyon → Méribel (alpine road)
+      roadRoute([[45.7640, 4.8357], [45.5, 5.8], [45.3720, 6.5778]]);
+      // Méribel → Lyon (return, dashed)
+      roadRoute([[45.3720, 6.5778], [45.5, 5.8], [45.7640, 4.8357]], { dashArray: '4 6', opacity: 0.5 });
+      // Lyon → Marseille → Nice (TGV with transfer)
+      trainRoute([[45.7640, 4.8357], [44.5, 5.0], [43.2965, 5.3698]]);
+      trainRoute([[43.2965, 5.3698], [43.5, 6.0], [43.7102, 7.2620]]);
+    })();
+  </script>
+
+</body>
+</html>
